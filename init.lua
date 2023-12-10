@@ -36,7 +36,9 @@ vim.keymap.set('n', '<C-f>', builtin.live_grep, {});
 -- Treesitter
 require 'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all" (the five listed parsers should always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
+  ensure_installed = {
+      "c", "lua", "vim", "vimdoc", "query", "c_sharp", "cpp", "css", "go", "html", "javascript", "json", "make", "python", "rust", "typescript"
+  },
   highlight = { enable = true },
 };
 
