@@ -42,3 +42,20 @@ require 'nvim-treesitter.configs'.setup {
   highlight = { enable = true },
 };
 
+-- Language servers
+require('mason').setup();
+require('mason-lspconfig').setup();
+require('lspconfig').lua_ls.setup({});
+require('lspconfig').clangd.setup({});
+require('lspconfig').csharp_ls.setup({});
+require('lspconfig').rust_analyzer.setup({});
+
+vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+    callback = function (ev)
+        local opts = { buffer = ev.buf };
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts);
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts);
+    end
+});
+

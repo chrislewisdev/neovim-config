@@ -26,6 +26,9 @@ return require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
   }
+  use 'williamboman/mason.nvim'
+  use 'williamboman/mason-lspconfig.nvim'
+  use 'neovim/nvim-lspconfig'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
