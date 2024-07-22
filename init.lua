@@ -9,7 +9,7 @@ vim.opt.shiftwidth = 4;
 vim.opt.expandtab = true;
 
 -- Use system clipboard?
-vim.api.nvim_set_option("clipboard","unnamed") 
+vim.api.nvim_set_option("clipboard","unnamed")
 
 -- Tab keybindings
 vim.keymap.set('n', '<A-Right>', '<Cmd>BufferNext<CR>', { noremap = true, silent = true});
@@ -29,9 +29,19 @@ vim.opt.termguicolors = true;
 require("nvim-tree").setup();
 
 -- telescope setup
+--require('telescope').setup{
+--    pickers = {
+--        find_files = {
+--            -- show hidden/ignored files
+--            find_command = { "rg", "--files", "--hidden", "--no-ignore-vcs", "--glob", "!**/.git/*" },
+--        }
+--    }
+--};
 local builtin = require('telescope.builtin');
 vim.keymap.set('n', '<C-p>', builtin.find_files, {});
 vim.keymap.set('n', '<C-f>', builtin.live_grep, {});
+vim.keymap.set('n', '<C-s>', builtin.lsp_document_symbols, {});
+vim.keymap.set('n', '<space>d', vim.diagnostic.open_float, {});
 
 -- Treesitter
 require 'nvim-treesitter.configs'.setup {
@@ -46,16 +56,20 @@ require 'nvim-treesitter.configs'.setup {
 require('mason').setup();
 require('mason-lspconfig').setup();
 require('lspconfig').lua_ls.setup({});
-require('lspconfig').clangd.setup({});
+--require('lspconfig').clangd.setup({});
 require('lspconfig').csharp_ls.setup({});
 require('lspconfig').rust_analyzer.setup({});
 
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function (ev)
+        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc';
+
         local opts = { buffer = ev.buf };
         vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts);
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts);
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts);
+        vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts);
     end
 });
 
