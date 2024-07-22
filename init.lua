@@ -1,7 +1,5 @@
 require('packer-bootstrap');
 
--- TODO: language servers, autocomplete
-
 -- Basic config options
 vim.opt.number = true;
 vim.opt.tabstop = 4;
